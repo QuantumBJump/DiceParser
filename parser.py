@@ -12,4 +12,5 @@ if len(sys.argv) < 2:
         print("Usage: ./parser.py [dice notation]")
         sys.exit()
 
-
+inputString = ' '.join(sys.argv[1:])
+print(inputString)
