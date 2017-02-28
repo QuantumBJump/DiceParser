@@ -6,10 +6,10 @@ was arrived at.
 
 # Changelog
 
-0.0.1
-Added the main parser.py file
-Currently does literally nothing except spit back the arguments you give it in the form of a joined string
-This is gonna take a while
+0.0.1  
+* Added the main parser.py file  
+* Currently does literally nothing except spit back the arguments you give it in the form of a joined string  
+* This is gonna take a while  
 
 # Dice Notation
 
@@ -29,14 +29,8 @@ rear their heads of various degrees of physical repulsiveness.
 The following is a list of modifiers used in most game systems, followed by
 modifiers from specific game systems.
 
-k[x]h/k[x]l:	keeps only the [x] highest or lowest results rolled. This
-		modifier is used in calculating character statistics in
-		D&D - 4d6 k3h, or roll four six sided dice and keep the
-		three highest results.
+**k[x]h/k[x]l:** keeps only the [x] highest or lowest results rolled. This modifier is used in calculating character statistics in D&D - 4d6 k3h, or roll four six sided dice and keep the three highest results.
 
-rr[x]:		rerolls dice which come up as [x] (default 1). [x] can be a
-		range, in which case it is inclusive. Dice can only be
-		rerolled once; if the second result is also a rerollable
-		number, tough luck.
+**rr[x]:** rerolls dice which come up as [x] (default 1). [x] can be a range, in which case it is inclusive. Dice can only be rerolled once; if the second result is also a rerollable number, tough luck.  
 
 
