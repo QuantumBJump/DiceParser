@@ -6,10 +6,11 @@ was arrived at.
 
 # Changelog
 
-0.0.1 	->	Added the main parser.py file
-	->	Currently does literally nothing except spit back the arguments
-		you give it in the form of a joined string
-	->	This is gonna take a while
+0.0.1
+Added the main parser.py file
+Currently does literally nothing except spit back the arguments you give it in the form of a joined string
+This is gonna take a while
+
 # Dice Notation
 
 At its simplest, Dice Notation allows you to indicate a number of dice to
