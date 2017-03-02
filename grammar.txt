@@ -7,7 +7,7 @@ S = { '<sentence>' }
 P = {
 	1. <sentence>	->	<statement> (<operator> <statement> )*
 	2. <statement>	->	<roll> (<operator><operand>)* <modifier>*
-	3. <roll>	->	(\d+)d|D(\d+)
+	3. <roll>	->	<operand>d|D<operand>
 	4. <operator>	->	+
 	5. <operator>	->	-
 	6. <operator>	->	/
