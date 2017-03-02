@@ -1,0 +1,19 @@
+T = { "xdx", "+", "-", "*", "/", 'rrx', 'kxh', 'kxl'}
+
+N = { '<sentence>', '<statement>', '<roll>', '<modifier>', '<operator>', '<operand>'}
+
+S = { '<sentence>' }
+
+P = {
+	1. <sentence>	->	<statement> (<operator> <statement> )*
+	2. <statement>	->	<roll> (<operator><operand>)* <modifier>*
+	3. <roll>	->	(\d+)d|D(\d+)
+	4. <operator>	->	+
+	5. <operator>	->	-
+	6. <operator>	->	/
+	7. <operator>	->	*
+	8. <operand>	->	\d+
+	9. <modifier>	->	rr<operand>
+	10. <modifier>	->	k<operand>h
+	11. <modifier>	->	k<operand>l
+    }
