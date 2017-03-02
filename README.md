@@ -11,6 +11,9 @@ was arrived at.
 * Currently does literally nothing except spit back the arguments you give it in the form of a joined string  
 * This is gonna take a while  
 
+0.0.2
+* parser.py now able to parse single dice rolls of the form "xdx"
+
 # Dice Notation
 
 At its simplest, Dice Notation allows you to indicate a number of dice to
