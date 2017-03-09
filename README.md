@@ -13,6 +13,7 @@ was arrived at.
 
 0.0.2
 * parser.py now able to parse single dice rolls of the form "xdx"
+* added a short text file to hash out the definition of the formal grammar used to parse rolls
 
 # Dice Notation
 
