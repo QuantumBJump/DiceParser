@@ -19,6 +19,9 @@ dicePat = re.compile(r'(\d+)d(\d+)')
 
 
 def roll(number, sides):
+    """
+    Rolls number dice, each with sides sides, returns the sum of them all
+    """
     total = 0
     for i in range(int(number)):
         result = random.randint(1, int(sides))
@@ -27,6 +30,9 @@ def roll(number, sides):
 
 
 def parse(toParse):
+    """
+    Parses a string for RPG dice notation, and also rolls this dice pool
+    """
     parsedString = dicePat.search(toParse)
     diceNo, sides = parsedString.groups()
     print("Rolling " + diceNo + ' dice with ' + sides + ' sides each.')
