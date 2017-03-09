@@ -5,7 +5,7 @@ import sys
 import re
 import random
 import dice
-import pool
+import dice_set
 
 
 if len(sys.argv) < 2:
@@ -49,7 +49,7 @@ def parse(toParse):
         for i in range(diceNo)
     ]
 
-    dicePool = pool.DicePool(diceList)
+    dicePool = dice_set.DiceSet(diceList)
     result = dicePool.roll()
     print (str(sum(result)) + ": " + str(result))
 

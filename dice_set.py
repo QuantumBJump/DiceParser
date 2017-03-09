@@ -9,7 +9,7 @@ class ContainerEmptyError(Exception):
     pass
 
 
-class DicePool:
+class DiceSet:
     """
     A pool of dice. That can be rolled.
     """
@@ -23,14 +23,14 @@ class DicePool:
 
         if type(dice) is not list:
             raise TypeError(
-                'dice argument {} to DicePool object should be a list'
+                'dice argument {} to DiceSet object should be a list'
                 .format(str(dice))
             )
 
         for d in dice:
             if not isinstance(d, Dice):
                 raise TypeError(
-                    'Element {} of dice argument to DicePool object should be a Dice'
+                    'Element {} of dice argument to DiceSet object should be a Dice'
                     .format(str(d)))
 
         self.dice = dice
@@ -57,14 +57,14 @@ class DicePool:
         try:
             self.dice.remove(dice)
         except ValueError:
-            raise ValueError('dice {} is not in the DicePool, so can\'t be removed'
+            raise ValueError('dice {} is not in the DiceSet, so can\'t be removed'
                              .format(str(dice)))
 
     def roll(self):
         """Returns a list of rolls of all the dice in the pool"""
 
         if len(self.dice) <= 0:
-            raise ContainerEmptyError('DicePool {} is empty, and can\'t be rolled'
+            raise ContainerEmptyError('DiceSet {} is empty, and can\'t be rolled'
                                       .format(str(self)))
 
         result = [die.roll() for die in self.dice]
