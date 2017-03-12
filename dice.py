@@ -37,5 +37,4 @@ class Dice:
     def roll(self):
         """Returns the result of a roll of the Dice."""
 
-        rnum = random.randint(0, len(self.sides) - 1)
-        return self.sides[rnum]
+        return random.choice(self.sides)
