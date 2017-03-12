@@ -21,7 +21,7 @@ class DiceSet:
         dice: A list of dice in the pool.
         """
 
-        if type(dice) is not list:
+        if not isinstance(dice, Dice):
             raise TypeError(
                 'dice argument {} to DiceSet object should be a list'
                 .format(str(dice))
