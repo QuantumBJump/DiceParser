@@ -14,7 +14,7 @@ class Dice:
         anything (an str, a list of str, etc)
         """
 
-        if type(sides) is not list:
+        if not isinstance(sides, list):
             raise TypeError('sides argument {} to Dice object should be a list'
                             ' (is {})'.format(repr(sides), str(type(sides))))
 
