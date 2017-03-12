@@ -20,7 +20,7 @@ class Dice:
         if isinstance(sides, list):
             self.sides = sides[:]
         elif isinstance(sides, int):
-            self.sides = range(1, sides)
+            self.sides = list(range(1, sides))
         else:
             raise TypeError('sides argument {} to Dice object should be a list or a number'
                             ' (is {})'.format(repr(sides), str(type(sides))))

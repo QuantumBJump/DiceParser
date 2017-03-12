@@ -48,7 +48,7 @@ def parse(toParse):
 
     dicePool = dice_set.DiceSet(diceList)
     result = dicePool.roll()
-    print (str(sum(result)) + ": " + str(result))
+    print('{sum}: {result}'.format(sum=sum(result), result=result))
 
 
 
