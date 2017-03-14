@@ -4,6 +4,9 @@
 import sys
 import re
 import random
+import dice
+import dice_set
+
 
 if len(sys.argv) < 2:
     # they didn't add a string to be parsed
@@ -36,7 +39,17 @@ def parse(toParse):
     parsedString = dicePat.search(toParse)
     diceNo, sides = parsedString.groups()
     print("Rolling " + diceNo + ' dice with ' + sides + ' sides each.')
-    print("Result: " + str(roll(diceNo, sides)))
+    # print("Result: " + str(roll(diceNo, sides)))
+
+    sides = int(sides)
+    diceNo = int(diceNo)
+
+    diceList = [dice.Dice(sides) for i in range(diceNo)]
+
+    dicePool = dice_set.DiceSet(diceList)
+    result = dicePool.roll()
+    print('{sum}: {result}'.format(sum=sum(result), result=result))
+
 
 
 parse(inputString)
