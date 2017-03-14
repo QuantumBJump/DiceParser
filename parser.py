@@ -4,17 +4,15 @@
 import sys
 import re
 import random
+import argparse
 
-if len(sys.argv) < 2:
-    # they didn't add a string to be parsed
-    if sys.argv[0] == 'parser.py':
-        print("Usage: python parser.py [dice notation]")
-        sys.exit()
-    else:
-        print("Usage: ./parser.py [dice notation]")
-        sys.exit()
+parser = argparse.ArgumentParser()
+parser.add_argument("notation",
+                    help="the notation for which dice to roll",
+                    nargs='+')
+args = parser.parse_args()
 
-inputString = ' '.join(sys.argv[1:])
+inputString = ' '.join(args.notation)
 dicePat = re.compile(r'(\d+)d(\d+)')
 
 
