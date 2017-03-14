@@ -44,14 +44,11 @@ def parse(toParse):
     sides = int(sides)
     diceNo = int(diceNo)
 
-    diceList = [
-        dice.Dice([i + 1 for i in range(sides)])
-        for i in range(diceNo)
-    ]
+    diceList = [dice.Dice(sides) for i in range(diceNo)]
 
     dicePool = dice_set.DiceSet(diceList)
     result = dicePool.roll()
-    print (str(sum(result)) + ": " + str(result))
+    print('{sum}: {result}'.format(sum=sum(result), result=result))
 
 
 

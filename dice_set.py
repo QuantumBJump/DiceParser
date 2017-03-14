@@ -21,10 +21,10 @@ class DiceSet:
         dice: A list of dice in the pool.
         """
 
-        if type(dice) is not list:
+        if not isinstance(dice, list):
             raise TypeError(
-                'dice argument {} to DiceSet object should be a list'
-                .format(str(dice))
+                'dice argument {} to DiceSet object should be a list, is {}'
+                .format(str(dice), type(dice))
             )
 
         for d in dice:
@@ -63,8 +63,8 @@ class DiceSet:
     def roll(self):
         """Returns a list of rolls of all the dice in the pool"""
 
-        if len(self.dice) <= 0:
-            raise ContainerEmptyError('DiceSet {} is empty, and can\'t be rolled'
+        if not self.dice:
+            raise ContainerEmptyError("DiceSet {} is empty, and can't be rolled"
                                       .format(str(self)))
 
         result = [die.roll() for die in self.dice]
