@@ -12,6 +12,7 @@ def parse(toParse):
     """
     Parses a string for RPG dice notation, and also rolls this dice pool
     """
+    dicePat = re.compile(r'(\d+)d(\d+)')
     parsedString = dicePat.search(toParse)
     diceNo, sides = parsedString.groups()
     print("Rolling " + diceNo + ' dice with ' + sides + ' sides each.')
@@ -46,7 +47,6 @@ def main():
     args = parser.parse_args()
 
     inputString = ' '.join(args.notation)
-    dicePat = re.compile(r'(\d+)d|D(\d+)')
 
     parse(inputString)
 
