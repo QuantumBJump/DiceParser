@@ -1,4 +1,4 @@
-#! /usr/bin/python3.4
+#! /usr/bin/env python3
 
 # Import the various needed modules
 import sys
@@ -12,6 +12,7 @@ def parse(toParse):
     """
     Parses a string for RPG dice notation, and also rolls this dice pool
     """
+    dicePat = re.compile(r'(\d+)[d|D](\d+)')
     parsedString = dicePat.search(toParse)
     diceNo, sides = parsedString.groups()
     print("Rolling " + diceNo + ' dice with ' + sides + ' sides each.')
@@ -19,9 +20,9 @@ def parse(toParse):
 
     sides = int(sides)
     diceNo = int(diceNo)
-    
+
     diceList = [dice.Dice(sides) for i in range(diceNo)]
-    
+
     dicePool = dice_set.DiceSet(diceList)
     result = dicePool.roll()
     print('{sum}: {result}'.format(sum=sum(result), result=result))
@@ -46,8 +47,7 @@ def main():
     args = parser.parse_args()
 
     inputString = ' '.join(args.notation)
-    dicePat = re.compile(r'(\d+)d|D(\d+)')    
-    
+
     parse(inputString)
 
 if __name__ == '__main__':
