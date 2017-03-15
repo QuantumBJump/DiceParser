@@ -19,9 +19,9 @@ def parse(toParse):
 
     sides = int(sides)
     diceNo = int(diceNo)
-    
+
     diceList = [dice.Dice(sides) for i in range(diceNo)]
-    
+
     dicePool = dice_set.DiceSet(diceList)
     result = dicePool.roll()
     print('{sum}: {result}'.format(sum=sum(result), result=result))
@@ -46,8 +46,8 @@ def main():
     args = parser.parse_args()
 
     inputString = ' '.join(args.notation)
-    dicePat = re.compile(r'(\d+)d|D(\d+)')    
-    
+    dicePat = re.compile(r'(\d+)d|D(\d+)')
+
     parse(inputString)
 
 if __name__ == '__main__':
