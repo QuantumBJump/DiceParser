@@ -12,12 +12,17 @@ import random
 import argparse
 
 class Roller(object):
-    def __init__(self, text):
-        self.inputs = text.split(' ')
-        self.number, self.sides = re.split('d|D', self.inputs[0])
-        self.number = int(self.number)
-        self.sides = int(self.sides)
-        self.modifiers = self.inputs[1:]
+    def __init__(self, text = None):
+        if text == None:
+            self.number = 1
+            self.sides = 1
+            self.modifiers = []
+        else:
+            self.inputs = text.split(' ')
+            self.number, self.sides = re.split('d|D', self.inputs[0])
+            self.number = int(self.number)
+            self.sides = int(self.sides)
+            self.modifiers = self.inputs[1:]
     
     def roll(self, sides):
         """Rolls a die with 'sides' sides"""
@@ -60,7 +65,14 @@ class Roller(object):
             result += rolls_in[i]
         return result
     
-    def evaluate(self):
+    def evaluate(self, text=None):
+        if text is not None:
+            self.inputs = text.split(' ')
+            self.number, self.sides = re.split('d|D', self.inputs[0])
+            self.number = int(self.number)
+            self.sides = int(self.sides)
+            self.modifiers = self.inputs[1:]
+
         roll_results = self.rolls(self.number, self.sides)
 
         if self.modifiers != []:
