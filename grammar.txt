@@ -17,3 +17,16 @@ P = {
 	10. <modifier>	->	k<operand>h
 	11. <modifier>	->	k<operand>l
     }
+
+INTEGER = \d+
+PLUS = '+'
+MINUS = '-'
+MUL = '*'
+DIV = '/'
+DICE = '\d+[d|D]\d+'
+MOD = rr\d+ | k(\d+)[h | H | l | L]
+
+
+expr		: term ((PLUS | MINUS) term)*
+term		: factor ((MUL | DIV) factor)*
+factor		: INTEGER | LPAREN expr RPAREN | DICE (MOD)*
