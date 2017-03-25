@@ -80,5 +80,6 @@ class Roller(object):
                     roll_results = self.reroll(roll_results, int(self.modifiers[i][2:]), self.sides)
         
         total = self.total(roll_results)
-        print(text + ": " + roll_results)
+        print(text + ": ")
+        print(roll_results)
         return total
