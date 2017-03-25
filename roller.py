@@ -6,10 +6,7 @@
 and return an integer total"""
 
 import re
-import dice
-import dice_set
 import random
-import argparse
 
 class Roller(object):
     def __init__(self, text = None):
@@ -83,5 +80,5 @@ class Roller(object):
                     roll_results = self.reroll(roll_results, int(self.modifiers[i][2:]), self.sides)
         
         total = self.total(roll_results)
-        print(roll_results)
+        print(text + ": " + roll_results)
         return total
