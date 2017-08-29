@@ -5,7 +5,7 @@ of a dice roll."""
 import sys
 import re
 import argparse
-from roller import Roller
+import roller
 
 #####################
 #       LEXER       #
@@ -17,8 +17,6 @@ INTEGER, PLUS, MINUS, MUL, DIV, LPAREN, RPAREN, ROLL, EOF = ('INTEGER', 'PLUS',
                                                              'DIV', '(', ')',
                                                              'ROLL', 'EOF')
 
-# Roller object to evaluate ROLL tokens
-roller = Roller()
 
 
 class Token(object):
@@ -169,7 +167,8 @@ class Roll(AST):
 
   def __init__(self, token):
     self.token = token
-    self.value = roller.evaluate(token.value)
+    self.roll = roller.Roll(token.value)
+    self.value = self.roll.get_value()
 
 
 class Parser(object):
@@ -271,6 +270,8 @@ class Interpreter(NodeVisitor):
 
   def __init__(self, parser):
     self.parser = parser
+    self.rolls = []
+    self.report = []
 
   def visit_BinOp(self, node):
     if node.op.type == PLUS:
@@ -293,46 +294,38 @@ class Interpreter(NodeVisitor):
     return node.value
 
   def visit_Roll(self, node):
+    self.rolls.append(node.roll)
+    self.report.append((node.roll.text, node.roll.results))
     return node.value
 
-  def interpret(self):
-    tree = self.parser.parse()
-    return self.visit(tree)
+  def interpret(self, tree=None):
+    if tree is None:
+      tree = self.parser.parse()
+    result = self.visit(tree)
+    return self.rolls, self.report, result
 
+
+class Result(object):
+
+  def __init__(self, text):
+    self.text = text
+    self.lexer = Lexer(self.text)
+    self.parser = Parser(self.lexer)
+    self.interpreter = Interpreter(self.parser)
+    self.rolls, self.report, self.result = self.interpreter.interpret()
+    self._gen_repr()
+
+  def _gen_repr(self):
+    self.repr = self.text
+    for roll in self.rolls:
+      self.repr = self.repr.replace(roll.text, str(roll.value), 1)
+
+  def pretty_print(self):
+    print(self.text)
+    for roll in self.rolls:
+      print("Rolling: {}\n\t{}".format(roll.text, roll.results))
+    print(self.repr)
+    print("Result: {}".format(self.result))
 
 def calculate(text):
-  lexer = Lexer(text)
-  parser = Parser(lexer)
-  interpreter = Interpreter(parser)
-  result = interpreter.interpret()
-  return result
-
-
-def main():
-  argparser = argparse.ArgumentParser(
-      description='calculate the result of a dice roll in dice notation')
-  argparser.add_argument(
-      'notation',
-      metavar='notation',
-      help="""The notation for which dice to roll.
-                If your notation contains parentheses, you must enclose it in single or double quotes (" or ')""",
-      nargs='*')
-  args = argparser.parse_args()
-  if len(sys.argv) >= 2:
-    inputString = ' '.join(args.notation)
-
-    print(calculate(inputString))
-  else:
-    while True:
-      try:
-        inputString = input('roll> ')
-      except EOFError:
-        break
-      if not inputString:
-        sys.exit()
-
-      print(calculate(inputString))
-
-
-if __name__ == '__main__':
-  main()
+  return Result(text)
