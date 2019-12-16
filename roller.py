@@ -8,6 +8,9 @@ and return an integer total"""
 import re
 import random
 
+KEEP_DROP_RE = re.compile(r'[kK](?P<number>\d+)(?P<end>h|H|l|L)')
+REROLL_RE = re.compile(r'rr(?P<comparator><|>|<=|>=|=)?(?P<number>\d+)(?P<repeating>!?)')
+
 
 class Roller(object):
 
@@ -206,3 +209,76 @@ class Roll(object):
         self.results = self._modifier_reroll(results, int(modifier[2:]))
     value = self._total(results)
     return results, value
+
+
+
+class Die(object):
+
+  def __init__(self, sides):
+    self.sides = sides
+    self.result = 0
+    self.status = ''
+
+  def roll(self):
+    self.result = random.randint(1, self.sides)
+
+class Dice(object):
+
+  def __init__(self, text=None):
+    self.dice = []
+    if text is not None:
+      inputs = text.split(' ') # split the input into one roll + one or more modifiers
+      number, sides = [int(num) for num in re.split('d|D', inputs[0])] # parses the number and type of dice
+      for _ in range(number):
+        self.dice.append(Die(sides))
+      self.modifiers = inputs[1:]
+    else:
+      self.dice = [Die(sides)]
+
+  def handle_keep(self, number, end):
+    sorted_dice = sorted(self.dice, key=lambda x: x.result)
+    [print(die.result) for die in sorted_dice]
+    if end == 'low':
+      dropped = sorted_dice[number:]
+    elif end == 'high':
+      dropped = sorted_dice[:number-1]
+
+    for die in dropped:
+      die.status='dropped'
+
+  def handle_reroll(self, comparator, number, repeating):
+      pass
+
+  def handle_mods(self):
+    for modifier in self.modifiers:
+      print(modifier)
+      match = KEEP_DROP_RE.match(modifier)
+      if match is not None:
+        match_dict = match.groupdict()
+        if match_dict['end'] == 'h' or match_dict['end'] == 'H':
+          end = 'high'
+        elif match_dict['end'] == 'l' or match_dict['end'] == 'L':
+          end = 'low'
+        self.handle_keep(int(match_dict['number']), end)
+
+      match = REROLL_RE.match(modifier)
+      if match is not None:
+        match_dict = match.groupdict()
+        self.handle_reroll(match_dict['comparator'], int(match_dict['number']), (match_dict['repeating'] is not None))
+
+
+  def roll(self):
+    for die in self.dice:
+      die.roll()
+    self.handle_mods()
+    self.print_report()
+
+  def print_report(self):
+    print("Rolls:")
+    self.result = 0
+    for die in self.dice:
+      if 'dropped' not in die.status:
+        self.result += die.result
+      print('\t{} - {}'.format(die.result, die.status))
+
+    print(self.result)
