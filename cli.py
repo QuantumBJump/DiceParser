@@ -44,9 +44,8 @@ def main():
       if not inputString:
         sys.exit()
 
-      report, result = parser.calculate(inputString)
-      print(format_report(report))
-      print(result)
+      result = parser.calculate(inputString)
+      result.pretty_print()
 
 if __name__ == '__main__':
   main()
