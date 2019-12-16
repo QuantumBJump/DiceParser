@@ -229,14 +229,15 @@ class Dice(object):
     if text is not None:
       inputs = text.split(' ') # split the input into one roll + one or more modifiers
       number, sides = [int(num) for num in re.split('d|D', inputs[0])] # parses the number and type of dice
-      for _ in range(number):
-        self.dice.append(Die(sides))
+      self.number = number
+      self.sides = sides
       self.modifiers = inputs[1:]
     else:
       self.dice = [Die(sides)]
 
   def handle_keep(self, number, end):
-    sorted_dice = sorted(self.dice, key=lambda x: x.result)
+    valid_dice = [die for die in self.dice if 'dropped' not in die.status]
+    sorted_dice = sorted(valid_dice, key=lambda x: x.result)
     [print(die.result) for die in sorted_dice]
     if end == 'low':
       dropped = sorted_dice[number:]
@@ -246,8 +247,40 @@ class Dice(object):
     for die in dropped:
       die.status='dropped'
 
+
+  def test_for_reroll(self, roll, comparator, number):
+    if comparator == '<':
+      return roll < number
+    elif comparator == '>':
+      return roll > number
+    elif comparator == '<=':
+      return roll<=number
+    elif comparator == '>=':
+      return roll >= number
+    elif comparator == '=' or comparator is None:
+      return roll == number
+
   def handle_reroll(self, comparator, number, repeating):
-      pass
+    valid_dice = []
+    print(comparator)
+    print(repeating)
+    for die in self.dice:
+      if die.status is not None:
+        if 'dropped' not in die.status:
+          valid_dice.append(die)
+    reroll_made = False
+    rerolled_dice = []
+    for die in valid_dice:
+      if self.test_for_reroll(die.result, comparator, number):
+        die.status = 'dropped, reroll'
+        new_die = Die(die.sides)
+        new_die.roll()
+        rerolled_dice.append(new_die)
+        reroll_made = True
+    self.dice.extend(rerolled_dice)
+    if repeating and reroll_made:
+      self.handle_reroll(comparator, number, repeating)
+
 
   def handle_mods(self):
     for modifier in self.modifiers:
@@ -264,12 +297,15 @@ class Dice(object):
       match = REROLL_RE.match(modifier)
       if match is not None:
         match_dict = match.groupdict()
-        self.handle_reroll(match_dict['comparator'], int(match_dict['number']), (match_dict['repeating'] is not None))
+        self.handle_reroll(match_dict['comparator'], int(match_dict['number']), (match_dict['repeating'] =='!'))
 
 
   def roll(self):
-    for die in self.dice:
+    self.dice = []
+    for _ in range(self.number):
+      die = Die(self.sides)
       die.roll()
+      self.dice.append(die)
     self.handle_mods()
     self.print_report()
 
